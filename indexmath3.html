@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 — Le calcul avec des lettres | Prépa test d'admission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN SYSTEM
+   ============================================================ */
+:root{
+  --bg:#0e1420;
+  --bg2:#141c2c;
+  --bg3:#1b2438;
+  --card:#18202f;
+  --card2:#1f2938;
+  --accent:#3fc9a8;
+  --accent-dim:rgba(63,201,168,.14);
+  --orange:#f0a85c;
+  --orange-dim:rgba(240,168,92,.14);
+  --text:#eef2f8;
+  --text2:#a3b0c4;
+  --text3:#68758a;
+  --border:#28324a;
+  --border2:#36425e;
+  --radius:16px;
+  --success:#4ade80;
+  --success-dim:rgba(74,222,128,.12);
+  --error:#fb7185;
+  --error-dim:rgba(251,113,133,.12);
+  --shadow:0 12px 32px rgba(0,0,0,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Outfit',system-ui,sans-serif;
+  background:
+    radial-gradient(1100px 520px at 12% -8%, rgba(63,201,168,.10), transparent 60%),
+    radial-gradient(900px 480px at 92% 6%, rgba(240,168,92,.08), transparent 62%),
+    var(--bg);
+  background-attachment:fixed;
+  color:var(--text);
+  min-height:100vh;
+  line-height:1.6;
+  padding:16px;
+}
+.mono{font-family:'Space Mono',monospace}
+.wrap{max-width:860px;margin:0 auto}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ============================================================
+   SIGNATURE — la barre « console lumière »
+   ============================================================ */
+.console{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:12px;padding:10px 14px;margin-bottom:18px;
+  flex-wrap:wrap;
+}
+.console-label{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text3);white-space:nowrap;
+}
+.leds{display:flex;gap:7px;margin-left:auto}
+.led{
+  width:26px;height:9px;border-radius:3px;background:var(--border2);
+  transition:background .3s ease, box-shadow .3s ease;
+}
+.led.on-first{background:var(--success);box-shadow:0 0 10px rgba(74,222,128,.55)}
+.led.on-helped{background:var(--orange);box-shadow:0 0 10px rgba(240,168,92,.55)}
+.led.on-shown{background:var(--error);box-shadow:0 0 10px rgba(251,113,133,.5)}
+.led.active{background:var(--accent);box-shadow:0 0 12px rgba(63,201,168,.7)}
+
+/* ============================================================
+   ÉLÉMENTS COMMUNS
+   ============================================================ */
+.screen{display:none;animation:fade .35s ease}
+.screen.visible{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);
+}
+.card + .card{margin-top:16px}
+
+h1{font-size:2rem;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+h2{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.05rem;font-weight:600}
+.eyebrow{
+  font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:10px;
+}
+.lead{color:var(--text2);font-size:1.02rem}
+.muted{color:var(--text3);font-size:.9rem}
+
+.btn{
+  font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;
+  border:none;border-radius:12px;padding:13px 24px;cursor:pointer;
+  background:var(--accent);color:#06231c;
+  transition:transform .15s ease, filter .15s ease;
+}
+.btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent)}
+.btn-orange{background:var(--orange);color:#2b1806}
+.btn-sm{padding:9px 16px;font-size:.9rem}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* ============================================================
+   ACCUEIL
+   ============================================================ */
+.hero{text-align:left;padding:34px 26px}
+.hero h1{margin-bottom:14px}
+.hero .lead{max-width:60ch}
+.objectifs{
+  list-style:none;margin:22px 0 4px;display:grid;gap:9px;
+}
+.objectifs li{
+  padding-left:26px;position:relative;color:var(--text2);font-size:.96rem;
+}
+.objectifs li::before{
+  content:'';position:absolute;left:0;top:.62em;
+  width:11px;height:3px;border-radius:2px;background:var(--accent);
+}
+.note-doux{
+  margin-top:22px;padding:16px 18px;border-radius:12px;
+  background:var(--accent-dim);border-left:3px solid var(--accent);
+  color:var(--text2);font-size:.95rem;
+}
+
+/* ============================================================
+   HUB — sélection des niveaux
+   ============================================================ */
+.hub-grid{display:grid;gap:12px;margin-top:6px}
+.niveau-card{
+  display:flex;align-items:center;gap:16px;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:18px 20px;cursor:pointer;color:var(--text);
+  font-family:'Outfit',sans-serif;
+  transition:border-color .2s ease, transform .2s ease, background .2s ease;
+}
+.niveau-card:hover{border-color:var(--accent);transform:translateX(4px);background:var(--card2)}
+.niveau-num{
+  font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;
+  color:var(--accent);min-width:38px;
+}
+.niveau-info{flex:1;min-width:0}
+.niveau-info strong{display:block;font-size:1.05rem;font-weight:600;margin-bottom:3px}
+.niveau-info span{color:var(--text3);font-size:.85rem}
+.niveau-etat{
+  font-family:'Space Mono',monospace;font-size:.78rem;color:var(--text3);
+  white-space:nowrap;text-align:right;
+}
+.niveau-card.done{border-color:var(--border2)}
+.niveau-card.done .niveau-etat{color:var(--success)}
+
+.progress-bar{
+  height:7px;background:var(--bg3);border-radius:99px;overflow:hidden;margin:16px 0 6px;
+}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--accent),var(--orange));
+  width:0;transition:width .5s ease;border-radius:99px;
+}
+
+/* ============================================================
+   NIVEAU — théorie + questions
+   ============================================================ */
+.theorie{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:14px;padding:20px 22px;margin-bottom:18px;
+}
+.theorie h3{color:var(--accent);margin-bottom:12px;font-size:1rem}
+.theorie p{color:var(--text2);font-size:.96rem;margin-bottom:10px}
+.theorie p:last-child{margin-bottom:0}
+.theorie strong{color:var(--text);font-weight:600}
+.theorie .formule{
+  font-family:'Space Mono',monospace;background:var(--bg);
+  border:1px solid var(--border2);border-radius:9px;
+  padding:10px 14px;margin:12px 0;display:block;color:var(--accent);
+  font-size:.94rem;overflow-x:auto;white-space:pre-line;
+}
+.theorie ul{margin:8px 0 10px 20px;color:var(--text2);font-size:.95rem}
+.theorie li{margin-bottom:5px}
+
+.q-contexte{
+  color:var(--text3);font-size:.85rem;font-style:italic;margin-bottom:8px;
+}
+.q-enonce{font-size:1.12rem;font-weight:500;margin-bottom:18px;line-height:1.5}
+.q-enonce .mono{color:var(--accent);font-size:1.05em}
+
+table.data{
+  width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:.93rem;
+}
+table.data th,table.data td{
+  border:1px solid var(--border2);padding:9px 12px;text-align:left;
+}
+table.data th{background:var(--bg3);color:var(--accent);font-weight:600;font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.05em}
+table.data td{color:var(--text2)}
+table.data td.num{font-family:'Space Mono',monospace;text-align:right;color:var(--text)}
+table.data tr.total td{background:var(--bg3);color:var(--text);font-weight:600}
+
+/* ============================================================
+   FIGURES — graphiques en SVG inline
+   ============================================================ */
+.figure{
+  background:var(--bg3);border:1px solid var(--border);border-radius:14px;
+  padding:16px 14px 12px;margin:14px 0 18px;
+}
+.figure svg{display:block;width:100%;height:auto}
+.fig-titre{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:10px;
+}
+.fig-note{font-size:.82rem;color:var(--text3);font-style:italic;margin-top:8px}
+.svg-bar{fill:var(--accent)}
+.svg-bar-b{fill:var(--orange)}
+.svg-axis{stroke:var(--border2);stroke-width:1.5;fill:none}
+.svg-grid{stroke:var(--border);stroke-width:1;stroke-dasharray:4 4}
+.svg-lab{font-family:'Space Mono',monospace;font-size:11px;fill:var(--text3)}
+.svg-val{font-family:'Space Mono',monospace;font-size:12px;fill:var(--text)}
+.svg-warn{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;fill:var(--orange)}
+.svg-fill-a{fill:rgba(63,201,168,.20)}
+.svg-fill-b{fill:rgba(240,168,92,.22)}
+.svg-fill-c{fill:rgba(238,242,248,.09)}
+.svg-edge{stroke:var(--border2);stroke-width:1.5;fill:none}
+.svg-line{stroke:var(--accent);stroke-width:2.5;fill:none}
+.svg-line-b{stroke:var(--orange);stroke-width:2.5;fill:none}
+.svg-pt{fill:var(--text)}
+.theorie .figure{background:var(--bg)}
+
+.options{display:grid;gap:10px}
+.option{
+  text-align:left;background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:14px 18px;cursor:pointer;color:var(--text);
+  font-family:'Outfit',sans-serif;font-size:1rem;
+  transition:border-color .18s ease, background .18s ease;
+}
+.option:hover:not(:disabled){border-color:var(--accent);background:var(--bg3)}
+.option:disabled{cursor:default}
+.option.correct{border-color:var(--success);background:var(--success-dim)}
+.option.wrong{border-color:var(--error);background:var(--error-dim)}
+
+.num-zone{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.num-field{flex:1;min-width:200px}
+.num-input{
+  width:100%;font-family:'Space Mono',monospace;font-size:1.15rem;
+  background:var(--bg);border:1px solid var(--border2);border-radius:12px;
+  padding:14px 16px;color:var(--text);
+}
+.num-input:focus{border-color:var(--accent);outline:none}
+.num-input.correct{border-color:var(--success)}
+.num-input.wrong{border-color:var(--error)}
+.calc-preview{
+  font-family:'Space Mono',monospace;font-size:.86rem;color:var(--orange);
+  margin-top:8px;min-height:1.2em;padding-left:4px;
+}
+.unite{
+  font-family:'Space Mono',monospace;color:var(--text3);font-size:.95rem;
+  padding-top:16px;
+}
+
+.feedback{
+  margin-top:16px;padding:16px 18px;border-radius:12px;font-size:.96rem;
+  animation:fade .25s ease;
+}
+.feedback strong{display:block;margin-bottom:6px;font-size:1rem}
+.feedback.ok{background:var(--success-dim);border-left:3px solid var(--success);color:var(--text2)}
+.feedback.hint{background:var(--orange-dim);border-left:3px solid var(--orange);color:var(--text2)}
+.feedback.show{background:var(--error-dim);border-left:3px solid var(--error);color:var(--text2)}
+.feedback .rep{font-family:'Space Mono',monospace;color:var(--text);font-weight:700}
+
+/* ============================================================
+   BILANS
+   ============================================================ */
+.legende{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 20px;font-size:.88rem;color:var(--text2)}
+.legende span{display:flex;align-items:center;gap:7px}
+.pastille{width:12px;height:12px;border-radius:50%;display:inline-block}
+.p-vert{background:var(--success)}
+.p-orange{background:var(--orange)}
+.p-rouge{background:var(--error)}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.stat{
+  background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+  padding:16px 12px;text-align:center;
+}
+.stat .val{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;display:block}
+.stat .lab{font-size:.76rem;color:var(--text3);margin-top:4px;display:block;line-height:1.3}
+.stat.v .val{color:var(--success)}
+.stat.o .val{color:var(--orange)}
+.stat.r .val{color:var(--error)}
+
+.medaille{font-size:3.4rem;text-align:center;margin:8px 0}
+.grade{
+  text-align:center;font-family:'Space Mono',monospace;font-size:1.25rem;
+  font-weight:700;margin-bottom:8px;
+}
+.message{text-align:center;color:var(--text2);max-width:52ch;margin:0 auto 4px}
+
+.ressenti{
+  margin-top:24px;padding-top:20px;border-top:1px solid var(--border);
+}
+.ressenti p{color:var(--text2);font-size:.95rem;margin-bottom:12px}
+.ressenti-btns{display:flex;gap:10px;flex-wrap:wrap}
+.r-btn{
+  flex:1;min-width:120px;background:var(--card2);border:1px solid var(--border);
+  border-radius:12px;padding:14px 10px;cursor:pointer;color:var(--text2);
+  font-family:'Outfit',sans-serif;font-size:.92rem;text-align:center;
+  transition:border-color .18s ease,color .18s ease;
+}
+.r-btn:hover{border-color:var(--accent);color:var(--text)}
+.r-btn.sel{border-color:var(--accent);background:var(--accent-dim);color:var(--text)}
+.r-btn .emo{display:block;font-size:1.5rem;margin-bottom:4px}
+
+/* Fiche finale */
+.fiche-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.92rem}
+.fiche-table th,.fiche-table td{
+  border-bottom:1px solid var(--border);padding:11px 10px;text-align:left;
+}
+.fiche-table th{
+  color:var(--text3);font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.07em;font-weight:600;
+}
+.fiche-table td{color:var(--text2)}
+.fiche-table td.theme{color:var(--text);font-weight:500}
+.fiche-table td.score{font-family:'Space Mono',monospace;text-align:center}
+.verdict{
+  font-size:.8rem;padding:3px 10px;border-radius:99px;white-space:nowrap;
+  font-weight:600;display:inline-block;
+}
+.verdict.acquis{background:var(--success-dim);color:var(--success)}
+.verdict.fragile{background:var(--orange-dim);color:var(--orange)}
+.verdict.prio{background:var(--error-dim);color:var(--error)}
+
+/* Confettis */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:99;overflow:hidden}
+.conf{
+  position:absolute;width:9px;height:14px;top:-20px;opacity:.9;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(105vh) rotate(720deg);opacity:0}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  .niveau-card:hover,.btn:hover{transform:none}
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:768px){
+  body{padding:12px}
+  .hero{padding:26px 20px}
+  h1{font-size:1.6rem}
+  .card{padding:20px 18px}
+  .stats{grid-template-columns:1fr;gap:9px}
+  .stat{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:13px 16px}
+  .stat .lab{margin-top:0}
+  table.data{font-size:.86rem}
+  table.data th,table.data td{padding:7px 8px}
+}
+@media(max-width:480px){
+  h1{font-size:1.4rem}
+  h2{font-size:1.15rem}
+  .q-enonce{font-size:1.03rem}
+  .console{padding:9px 12px;gap:8px}
+  .led{width:20px}
+  .niveau-card{padding:15px 16px;gap:12px}
+  .niveau-num{font-size:1.25rem;min-width:30px}
+  .btn{width:100%;text-align:center}
+  .btn-row .btn{flex:1 1 100%}
+  .fiche-table{font-size:.85rem}
+  .fiche-table th,.fiche-table td{padding:9px 6px}
+  table.data{font-size:.8rem}
+  table.data th,table.data td{padding:6px 5px}
+  .figure{padding:12px 10px 10px}
+}
+
+/* ============================================================
+   IMPRESSION DE LA FICHE
+   ============================================================ */
+@media print{
+  body{background:#fff;color:#000;padding:0}
+  .no-print{display:none !important}
+  .card{box-shadow:none;border:1px solid #ccc;background:#fff}
+  .fiche-table td,.fiche-table th{color:#000;border-bottom:1px solid #bbb}
+  .fiche-table td.theme{color:#000}
+  .verdict{border:1px solid #666;color:#000 !important;background:#fff !important}
+  .note-doux{background:#fff;border-left:3px solid #666;color:#000}
+  h1,h2,h3,.lead,.muted{color:#000}
+}
+</style>
+</head>
+<body>
+<div id="confetti" aria-hidden="true"></div>
+<div class="wrap">
+
+<!-- ========================= ACCUEIL ========================= -->
+<section id="scr-accueil" class="screen visible">
+  <div class="card hero">
+    <div class="eyebrow">Prépa test d'admission · Régisseur général de spectacle</div>
+    <h1>Module 3 — Le calcul avec des lettres</h1>
+    <p class="lead">Développer, factoriser, résoudre. Tout le monde bloque un jour sur « le calcul avec des lettres » — et presque toujours pour la même raison : personne n'a dit clairement à quoi sert la lettre. On commence par là.</p>
+
+    <ul class="objectifs">
+      <li>5 étapes courtes, 20 questions au total</li>
+      <li>Environ 40 minutes, et tu peux t'arrêter entre deux étapes</li>
+      <li>Un rappel de cours avant chaque série — rien à réviser avant</li>
+      <li>Un indice disponible à tout moment, sans pénalité</li>
+      <li>À la fin : une fiche des points à travailler, imprimable</li>
+    </ul>
+
+    <div class="note-doux">
+      <strong>Ce module n'est pas une évaluation.</strong> Il sert à repérer ce qui est déjà là et ce qui demande un coup de main. Une réponse fausse ici, c'est une information utile — pas une erreur.<br><br>C'est le module le plus dense du parcours : cinq étapes au lieu de quatre. Rien n'oblige à tout enchaîner. Deux étapes, une pause, la suite plus tard : ça marche très bien aussi.
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="goHub()">Commencer</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= HUB ========================= -->
+<section id="scr-hub" class="screen">
+  <div class="console no-print">
+    <span class="console-label">Module 3 · Le calcul avec des lettres</span>
+    <span class="console-label" id="hub-compteur" style="margin-left:auto"></span>
+  </div>
+
+  <div class="card">
+    <h2>Les 5 étapes</h2>
+    <p class="muted" style="margin-top:6px">L'ordre proposé est le plus logique, mais tu peux commencer par celle que tu veux et revenir sur une étape autant de fois que tu le souhaites.</p>
+    <div class="progress-bar"><div class="progress-fill" id="hub-progress"></div></div>
+    <div class="hub-grid" id="hub-grid"></div>
+    <div class="btn-row">
+      <button class="btn btn-orange" id="btn-fiche" onclick="showFinal()" style="display:none">Voir ma fiche de synthèse</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= NIVEAU ========================= -->
+<section id="scr-niveau" class="screen">
+  <div class="console no-print">
+    <span class="console-label" id="niv-label"></span>
+    <div class="leds" id="niv-leds"></div>
+  </div>
+  <div id="niv-theorie"></div>
+  <div class="card">
+    <div class="eyebrow" id="q-compteur"></div>
+    <div id="q-contexte"></div>
+    <div class="q-enonce" id="q-enonce"></div>
+    <div id="q-tableau"></div>
+    <div id="q-zone"></div>
+    <div id="q-feedback"></div>
+    <div class="btn-row" id="q-actions"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-ghost btn-sm" onclick="goHub()">← Retour aux étapes</button>
+  </div>
+</section>
+
+<!-- ========================= BILAN NIVEAU ========================= -->
+<section id="scr-bilan" class="screen">
+  <div class="card">
+    <div class="eyebrow" id="bil-eyebrow"></div>
+    <div class="medaille" id="bil-medaille"></div>
+    <div class="grade" id="bil-grade"></div>
+    <p class="message" id="bil-message"></p>
+
+    <div class="legende">
+      <span><i class="pastille p-vert"></i> Trouvé seule</span>
+      <span><i class="pastille p-orange"></i> Trouvé avec un coup de main</span>
+      <span><i class="pastille p-rouge"></i> Réponse montrée</span>
+    </div>
+    <div class="stats" id="bil-stats"></div>
+
+    <div class="ressenti">
+      <p><strong>Et toi, tu le sens comment ?</strong> Ton ressenti compte autant que le score : il servira à choisir sur quoi passer du temps pendant les deux séances de cours.</p>
+      <div class="ressenti-btns" id="bil-ressenti"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="bil-suivant"></button>
+      <button class="btn btn-ghost" id="bil-recommencer">Refaire cette étape</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= BILAN FINAL ========================= -->
+<section id="scr-final" class="screen">
+  <div class="card">
+    <div class="eyebrow">Module 3 terminé · Le calcul avec des lettres</div>
+    <h1 id="fin-titre">Ta fiche de synthèse</h1>
+    <p class="lead" id="fin-lead" style="margin-top:10px"></p>
+
+    <div class="stats" id="fin-stats"></div>
+
+    <h3 style="margin-top:26px">Détail par thème</h3>
+    <table class="fiche-table">
+      <thead>
+        <tr><th>Thème</th><th style="text-align:center">Score</th><th>Ressenti</th><th>À faire</th></tr>
+      </thead>
+      <tbody id="fin-tbody"></tbody>
+    </table>
+
+    <div id="fin-priorites"></div>
+
+    <div class="btn-row no-print">
+      <button class="btn" onclick="window.print()">Imprimer la fiche</button>
+      <button class="btn btn-ghost" onclick="goHub()">Retour aux étapes</button>
+      <button class="btn btn-ghost" onclick="resetAll()">Tout recommencer</button>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ============================================================
+   CONTENU PÉDAGOGIQUE — MODULE 3
+   ============================================================ */
+
+/* Figure : le carré agrandi — preuve visuelle de (a + b)² */
+const FIG_CARRE = `
+<div class="figure">
+  <div class="fig-titre">Un praticable carré de côté a, agrandi de b dans les deux sens</div>
+  <svg viewBox="0 0 360 290" role="img" aria-label="Un grand carré de côté a plus b, découpé en quatre morceaux : un carré a fois a, deux rectangles a fois b, et un petit carré b fois b.">
+    <rect class="svg-fill-a" x="70"  y="100" width="150" height="150"></rect>
+    <rect class="svg-fill-b" x="220" y="100" width="70"  height="150"></rect>
+    <rect class="svg-fill-b" x="70"  y="30"  width="150" height="70"></rect>
+    <rect class="svg-fill-c" x="220" y="30"  width="70"  height="70"></rect>
+    <path class="svg-edge" d="M70 30 h220 v220 h-220 z M70 100 h220 M220 30 v220"></path>
+    <text class="svg-val" x="145" y="180" text-anchor="middle">a × a</text>
+    <text class="svg-val" x="255" y="180" text-anchor="middle">a × b</text>
+    <text class="svg-val" x="145" y="70"  text-anchor="middle">a × b</text>
+    <text class="svg-val" x="255" y="70"  text-anchor="middle">b × b</text>
+    <text class="svg-lab" x="145" y="270" text-anchor="middle">a</text>
+    <text class="svg-lab" x="255" y="270" text-anchor="middle">b</text>
+    <text class="svg-lab" x="56"  y="180" text-anchor="end">a</text>
+    <text class="svg-lab" x="56"  y="70"  text-anchor="end">b</text>
+  </svg>
+  <div class="fig-note">Les deux rectangles orange, c'est le 2ab que tout le monde oublie.</div>
+</div>`;
+
+/* Figure : deux droites sécantes — la solution d'un système */
+const FIG_DROITES = `
+<div class="figure">
+  <div class="fig-titre">Chaque équation est une droite · la solution est leur point commun</div>
+  <svg viewBox="0 0 380 250" role="img" aria-label="Deux droites tracées dans un repère se croisent en un seul point, qui est la solution du système.">
+    <line class="svg-grid" x1="50" y1="125" x2="205" y2="125"></line>
+    <line class="svg-grid" x1="205" y1="125" x2="205" y2="220"></line>
+    <line class="svg-line"   x1="60" y1="200" x2="350" y2="50"></line>
+    <line class="svg-line-b" x1="60" y1="60"  x2="350" y2="190"></line>
+    <path class="svg-edge" d="M50 20 L50 220 L360 220"></path>
+    <circle class="svg-pt" cx="205" cy="125" r="5.5"></circle>
+    <text class="svg-val" x="216" y="118">solution</text>
+    <text class="svg-lab" x="350" y="42"  text-anchor="end">équation 1</text>
+    <text class="svg-lab" x="350" y="208" text-anchor="end">équation 2</text>
+  </svg>
+</div>`;
+
+const LEVELS = [
+{
+  titre:"Traduire et réduire",
+  sous:"À quoi sert la lettre, et ce qu'on a le droit d'additionner",
+  theorie:`
+    <h3>Avant de commencer</h3>
+    <p>Une lettre, en mathématiques, ce n'est rien d'autre qu'une <strong>case à remplir</strong>. Tu en as déjà manipulé au module 1 sans que ça s'appelle de l'algèbre : dans <span class="mono">P = U × I</span>, P, U et I sont trois cases, et on remplit celles qu'on connaît pour trouver l'autre.</p>
+    <p>Le devis d'une compagnie, par exemple, s'écrit :</p>
+    <span class="formule">C = 450 + 85n
+C = coût de la représentation · n = nombre de techniciens</span>
+    <p>Les 450 €, c'est ce qu'on paie de toute façon : les <strong>frais fixes</strong>. Les 85 €, c'est ce que coûte <strong>chaque</strong> technicien : ce nombre-là multiplie n.</p>
+    <p><strong>Le vocabulaire en trois mots.</strong> Les <strong>termes</strong> sont les morceaux séparés par + ou − : ici 450 et 85n. Dans 85n, 85 et n sont les <strong>facteurs</strong>, et 85 est le <strong>coefficient</strong> de n.</p>
+    <p><strong>Réduire</strong>, c'est regrouper ce qui est de même nature : les n avec les n, les nombres seuls avec les nombres seuls.</p>
+    <span class="formule">5n + 3n = 8n
+mais 5n + 3 ne se réduit pas</span>
+    <p>C'est exactement la logique du plateau : 5 projecteurs + 3 projecteurs = 8 projecteurs, mais 5 projecteurs + 3 câbles ne font pas « 8 » de quoi que ce soit.</p>`,
+  questions:[
+    {
+      type:"num",
+      contexte:"Devis pour une représentation en tournée.",
+      enonce:"Le coût s'écrit <span class='mono'>C = 450 + 85n</span>, où n est le nombre de techniciens. Quel est le coût pour <strong>6 techniciens</strong> ?",
+      unite:"€",
+      reponse:960,
+      indice:"Remplace simplement n par 6, puis souviens-toi de l'ordre des opérations du module 1 : la multiplication passe avant l'addition.",
+      explication:"85 × 6 = 510 € pour les six techniciens, auxquels s'ajoutent les 450 € de frais fixes : <span class='rep'>960 €</span>. Si on additionne d'abord 450 + 85 pour multiplier ensuite par 6, on obtient 3 210 € : c'est le signe qu'on a mélangé un forfait et un prix unitaire.",
+      rappel:"Substituer, c'est remplacer la lettre par sa valeur — sans rien changer à l'ordre des opérations."
+    },
+    {
+      type:"qcm",
+      contexte:"La salle envoie sa grille tarifaire.",
+      enonce:"La salle facture <strong>350 € de location</strong>, plus <strong>4 € par spectateur</strong> pour le service du bar. Quelle expression donne le coût total pour <span class='mono'>s</span> spectateurs ?",
+      options:["350 + 4s","350s + 4","354s","350 + 4 + s"],
+      correct:0,
+      indice:"Lequel des deux nombres change quand le public est plus nombreux ? C'est celui-là qui doit être collé à la lettre.",
+      explication:"Les 4 € reviennent à chaque spectateur : ils multiplient s. Les 350 € ne bougent pas, quel que soit le public : ils restent seuls. D'où <span class='rep'>350 + 4s</span>. L'écriture 350s reviendrait à faire payer la location entière à chaque spectateur, et 354s additionne un forfait avec un prix unitaire — exactement ce que la réduction interdit.",
+      rappel:"Le nombre qui dépend de la quantité multiplie la lettre ; le forfait reste tout seul."
+    },
+    {
+      type:"qcm",
+      contexte:"Le devis est écrit en deux morceaux.",
+      enonce:"Le montage coûte <span class='mono'>5n + 12</span> et le démontage <span class='mono'>3n − 4</span> (en euros, n = nombre de techniciens). Quelle est l'expression du <strong>total</strong> ?",
+      options:["8n + 8","16n","8n + 16","20n"],
+      correct:0,
+      indice:"Range d'un côté ce qui contient la lettre, de l'autre ce qui n'en contient pas. Qu'est-ce qui peut s'additionner avec quoi ?",
+      explication:"5n + 3n = 8n, et 12 − 4 = 8 : le total s'écrit <span class='rep'>8n + 8</span>. La réponse 16n vient d'une addition de tout ce qui traîne (5 + 12 + 3 − 4), comme si les nombres seuls étaient eux aussi des techniciens. Et 8n + 16 vient d'un 12 + 4 : le signe moins devant le 4 s'est perdu en route.",
+      rappel:"On n'additionne que des termes semblables : les n avec les n, les nombres avec les nombres."
+    },
+    {
+      type:"num",
+      contexte:"La facture arrive, il faut la contrôler.",
+      enonce:"Toujours avec <span class='mono'>C = 450 + 85n</span> : la facture s'élève à <strong>1 300 €</strong>. Combien de techniciens ont travaillé ?",
+      unite:"techniciens",
+      reponse:10,
+      indice:"Sur ces 1 300 €, une partie ne dépend pas du nombre de techniciens. Retire-la d'abord : que reste-t-il à partager, et à quel prix l'unité ?",
+      explication:"Les 450 € de frais fixes se paient de toute façon : 1 300 − 450 = 850 € pour les techniciens. Chacun coûtant 85 € : 850 ÷ 85 = <span class='rep'>10 techniciens</span>. Vérification : 450 + 85 × 10 = 1 300 ✓. Ce que tu viens de faire porte un nom : tu as résolu une équation. C'est tout l'objet de l'étape 3.",
+      rappel:"Une formule se lit dans les deux sens : connaissant le résultat, on remonte jusqu'à la case vide."
+    }
+  ]
+},
+{
+  titre:"Développer et factoriser",
+  sous:"Distributivité, mise en évidence, identités remarquables",
+  theorie:`
+    <h3>Avant de commencer</h3>
+    <p><strong>Développer</strong>, c'est transformer un produit en somme. <strong>Factoriser</strong>, c'est refaire le chemin dans l'autre sens.</p>
+    <span class="formule">k(a + b) = ka + kb
+(a + b)(c + d) = ac + ad + bc + bd</span>
+    <p>Un exemple de plateau : trois loges à équiper, chacune avec un miroir à 40 € et deux chaises à 25 € (donc 50 €). On peut calculer 3 × (40 + 50) = 3 × 90 = 270 €, ou bien 3 × 40 + 3 × 50 = 120 + 150 = 270 €. Même résultat : c'est ça, la distributivité.</p>
+    <p><strong>Factoriser</strong>, c'est repérer ce qui est commun et le sortir devant :</p>
+    <span class="formule">12x + 18 = 6 × 2x + 6 × 3 = 6(2x + 3)</span>
+    <p><strong>Les trois identités remarquables</strong> — celles qui tombent à tous les tests :</p>
+    <span class="formule">(a + b)² = a² + 2ab + b²
+(a − b)² = a² − 2ab + b²
+(a + b)(a − b) = a² − b²</span>
+    <p><strong>Le piège numéro un : (a + b)² n'est PAS a² + b².</strong> Le dessin le montre mieux qu'un discours. Un praticable carré de côté a, agrandi de b dans les deux directions, contient le carré de départ (a × a), le petit carré du coin (b × b), <strong>et deux rectangles a × b</strong> qu'on oublie systématiquement. D'où le 2ab.</p>
+    ` + FIG_CARRE,
+  questions:[
+    {
+      type:"qcm",
+      contexte:"Agrandissement du praticable central.",
+      enonce:"Le praticable est un carré de <span class='mono'>x</span> mètres de côté. On l'agrandit de <strong>2 m</strong> dans les deux directions. Quelle expression donne l'aire du nouveau praticable ?",
+      options:["x² + 4x + 4","x² + 4","x² + 2x + 4","2x + 4"],
+      correct:0,
+      indice:"Le nouveau côté mesure (x + 2). L'aire d'un carré, c'est le côté multiplié par lui-même : que donne (x + 2)(x + 2) ?",
+      explication:"(x + 2)² = x² + 2 × x × 2 + 2² = <span class='rep'>x² + 4x + 4</span>. La réponse x² + 4 est l'erreur la plus répandue de toute l'algèbre : elle conserve le carré de départ et le petit carré du coin, mais oublie <strong>les deux bandes de 2x</strong> ajoutées le long des côtés — les deux rectangles orange du dessin, juste au-dessus.",
+      rappel:"(a + b)² = a² + 2ab + b². Le terme du milieu n'est jamais optionnel."
+    },
+    {
+      type:"num",
+      contexte:"Le même praticable, mais avec de vrais chiffres.",
+      enonce:"Le praticable mesure <strong>3 m</strong> de côté et on l'agrandit de <strong>2 m</strong> dans les deux directions. Quelle est l'aire du nouveau praticable ?",
+      unite:"m²",
+      reponse:25,
+      indice:"Commence par le nouveau côté : 3 + 2. Ensuite, aire d'un carré = côté × côté.",
+      explication:"Le nouveau côté fait 5 m, donc l'aire vaut 5 × 5 = <span class='rep'>25 m²</span>. Par la formule : 3² + 2 × 3 × 2 + 2² = 9 + 12 + 4 = 25 ✓. Si on avait écrit 3² + 2² = 13 m², on aurait perdu 12 m² — les deux bandes. Retiens ce réflexe : en cas de doute sur une identité, remplace les lettres par de petits nombres et compare.",
+      rappel:"Une formule littérale se teste avec des nombres simples quand un doute apparaît."
+    },
+    {
+      type:"qcm",
+      contexte:"Le comptable relit le devis.",
+      enonce:"Le devis contient l'expression <span class='mono'>12x + 18</span>. Le comptable veut la réécrire sous forme de produit, pour faire apparaître un facteur commun. Quelle écriture est correcte ?",
+      options:["6(2x + 3)","6(2x + 18)","6(12x + 3)","30x"],
+      correct:0,
+      indice:"Quel est le plus grand nombre qui divise à la fois 12 et 18 ? Une fois qu'il est sorti de la parenthèse, que reste-t-il de chaque terme ?",
+      explication:"12 et 18 sont tous deux divisibles par 6 : 12x = 6 × 2x et 18 = 6 × 3, donc 12x + 18 = <span class='rep'>6(2x + 3)</span>. Le contrôle est immédiat, il suffit de redévelopper : 6 × 2x = 12x et 6 × 3 = 18 ✓. Dans les deux autres parenthèses, un terme n'a pas été divisé. Quant à 30x, c'est l'addition interdite de 12x et 18, qui ne sont pas des termes semblables.",
+      rappel:"Une factorisation se vérifie toujours en redéveloppant."
+    },
+    {
+      type:"qcm",
+      contexte:"Plan de scène, version définitive.",
+      enonce:"La scène est un rectangle de <span class='mono'>(x + 3)</span> mètres sur <span class='mono'>(x − 3)</span> mètres. Quelle est son aire ?",
+      options:["x² − 9","x² + 9","x² − 6x + 9","x² − 6x − 9"],
+      correct:0,
+      indice:"Développe les quatre produits : x × x, x × (−3), 3 × x, 3 × (−3). Que donnent les deux termes du milieu une fois additionnés ?",
+      explication:"(x + 3)(x − 3) = x² − 3x + 3x − 9 : les deux termes du milieu se neutralisent et il reste <span class='rep'>x² − 9</span>. La réponse x² − 6x + 9 est le développement de (x − 3)² : c'est la confusion la plus fréquente entre les deux identités. Vérifie avec x = 5 : la scène ferait 8 m sur 2 m, soit 16 m², et x² − 9 = 25 − 9 = 16 ✓.",
+      rappel:"(a + b)(a − b) = a² − b² : les termes du milieu s'annulent."
+    }
+  ]
+},
+{
+  titre:"Les équations du premier degré",
+  sous:"Isoler l'inconnue, mettre un problème en équation, vérifier",
+  theorie:`
+    <h3>Avant de commencer</h3>
+    <p>Une équation, c'est une <strong>balance</strong> : les deux plateaux s'équilibrent. Tout ce qu'on fait d'un côté du signe égal, on le fait de l'autre, et l'équilibre tient.</p>
+    <p>Tu as déjà appliqué la règle au module 1, en isolant I dans <span class="mono">P = U × I</span> :</p>
+    <span class="formule">ce qui s'ajoute d'un côté se retire de l'autre
+ce qui multiplie d'un côté divise de l'autre</span>
+    <p>Un exemple complet, avec le devis de l'étape 1 :</p>
+    <span class="formule">450 + 85n = 1 300
+85n = 1 300 − 450 = 850
+n = 850 ÷ 85 = 10</span>
+    <p><strong>Et on vérifie, toujours.</strong> On remplace n par 10 dans l'équation de départ : 450 + 85 × 10 = 1 300 ✓. Trente secondes de calcul qui transforment un « j'espère » en « j'en suis sûre ». Le jour du test, c'est aussi ce qui permet d'éliminer des propositions d'un QCM sans même résoudre : on teste les réponses proposées.</p>
+    <p>Quand la lettre apparaît <strong>des deux côtés</strong>, la première manœuvre est toujours la même : les lettres d'un côté, les nombres de l'autre.</p>`,
+  questions:[
+    {
+      type:"num",
+      contexte:"Facture du loueur de camion.",
+      enonce:"La location revient à <strong>85 € de forfait</strong>, plus <strong>45 € par jour</strong>. La facture s'élève à <strong>400 €</strong>. Combien de jours le camion a-t-il été loué ?",
+      unite:"jours",
+      reponse:7,
+      indice:"Le forfait ne se paie qu'une fois : commence par le retirer du total. Ce qui reste correspond aux jours, à 45 € l'unité.",
+      explication:"L'équation s'écrit 85 + 45j = 400. On retire le forfait des deux côtés : 45j = 315. On divise par 45 : j = <span class='rep'>7 jours</span>. Vérification : 85 + 45 × 7 = 85 + 315 = 400 ✓.",
+      rappel:"On isole la lettre en défaisant les opérations, dans l'ordre inverse de celui où elles ont été faites."
+    },
+    {
+      type:"num",
+      contexte:"Réunion de production : à partir de quand la soirée est-elle à l'équilibre ?",
+      enonce:"La soirée coûte <strong>2 400 €</strong> de frais fixes, plus <strong>3 €</strong> de programme offert à chaque spectateur. Chaque place se vend <strong>15 €</strong>. Combien faut-il vendre de places pour que la recette couvre <strong>exactement</strong> les dépenses ?",
+      unite:"places",
+      reponse:200,
+      indice:"Écris la recette d'un côté (15 par place), les dépenses de l'autre (les frais fixes plus 3 par place), et cherche le nombre qui rend les deux égaux. Les termes en x se regroupent du même côté.",
+      explication:"15x = 2 400 + 3x. On regroupe les x : 15x − 3x = 2 400, soit 12x = 2 400 et x = <span class='rep'>200 places</span>. Vérification : 200 × 15 = 3 000 € de recette, et 2 400 + 200 × 3 = 3 000 € de dépenses ✓. Le 12x dit quelque chose d'utile pour le métier : une place ne rapporte pas 15 € mais 12 € une fois le programme payé.",
+      rappel:"Lettres d'un côté, nombres de l'autre : c'est toujours la première manœuvre."
+    },
+    {
+      type:"qcm",
+      contexte:"Trois techniciens facturent la même chose.",
+      enonce:"Chacun des <strong>trois</strong> techniciens facture <strong>40 € de déplacement</strong> plus <span class='mono'>x</span> € de service. Le total s'élève à <strong>285 €</strong>. Que vaut x ?",
+      options:["55 €","95 €","81,67 €","245 €"],
+      correct:0,
+      indice:"L'équation s'écrit 3(x + 40) = 285. Attention : le 3 multiplie tout le contenu de la parenthèse, déplacement compris.",
+      explication:"3(x + 40) = 285 → x + 40 = 95 → x = <span class='rep'>55 €</span>. Vérification : 3 × (55 + 40) = 3 × 95 = 285 ✓. La réponse 95 € correspond à un arrêt en cours de route, avant d'avoir retiré les 40 €. Et 81,67 € vient d'un 3x + 40 = 285 : le 3 n'a été appliqué qu'à x, alors que le déplacement est lui aussi payé trois fois.",
+      rappel:"Un facteur devant une parenthèse multiplie tout ce qu'elle contient."
+    },
+    {
+      type:"num",
+      contexte:"Répartition du budget de production.",
+      enonce:"Le budget décor et lumière s'élève à <strong>7 200 €</strong>. Le décor coûte le <strong>double</strong> de la lumière. Quel est le budget de la <strong>lumière</strong> ?",
+      unite:"€",
+      reponse:2400,
+      indice:"Appelle L le budget lumière. Comment s'écrit celui du décor avec cette même lettre ? Et leur somme ?",
+      explication:"Si L est le budget lumière, le décor vaut 2L, donc L + 2L = 7 200, soit 3L = 7 200 et L = <span class='rep'>2 400 €</span> (le décor prend les 4 800 € restants). Vérification en deux temps : 2 400 + 4 800 = 7 200 ✓ <strong>et</strong> 4 800 est bien le double de 2 400 ✓. Contrôler le seul total ne suffirait pas — 3 600 et 3 600 donnent aussi 7 200, sans respecter la condition du double.",
+      rappel:"Une solution se vérifie sur toutes les conditions de l'énoncé, pas seulement sur la dernière."
+    }
+  ]
+},
+{
+  titre:"Les inéquations du premier degré",
+  sous:"Au moins, au maximum, et le signe qui se retourne",
+  theorie:`
+    <h3>Avant de commencer</h3>
+    <p>Une inéquation se résout <strong>exactement comme une équation</strong>, avec une seule différence — mais elle est décisive.</p>
+    <p>Les quatre signes : <span class="mono">&lt;</span> plus petit, <span class="mono">&gt;</span> plus grand, <span class="mono">≤</span> plus petit ou égal, <span class="mono">≥</span> plus grand ou égal. Dans la vraie vie du plateau : « au moins 150 places » s'écrit x ≥ 150, « 250 kg maximum » s'écrit m ≤ 250.</p>
+    <p><strong>La règle qui fait toute la différence :</strong></p>
+    <span class="formule">multiplier ou diviser par un nombre NÉGATIF
+→ le sens du signe se retourne</span>
+    <p>Pourquoi ? Regarde : 2 &lt; 5. Multiplie les deux par −1 : on obtient −2 et −5. Or −2 est plus <strong>grand</strong> que −5. Le classement s'est inversé.</p>
+    <p>La solution s'écrit ensuite sous forme d'<strong>intervalle</strong> :</p>
+    <span class="formule">x ≥ 170 → [170 ; +∞[
+150 ≤ x ≤ 400 → [150 ; 400]</span>
+    <p>Crochet fermé quand la valeur est acceptée, ouvert quand elle est exclue. Du côté de l'infini, le crochet est toujours ouvert : on n'atteint jamais l'infini.</p>
+    <p>Et le meilleur contrôle reste le bon sens du métier. Si tu trouves qu'il faut « au moins 10 jours » alors que la question porte sur un stock qui s'épuise, c'est qu'un signe s'est retourné quelque part.</p>`,
+  questions:[
+    {
+      type:"num",
+      contexte:"Point mort de la soirée.",
+      enonce:"Les frais de la soirée s'élèvent à <strong>3 060 €</strong> et chaque place se vend <strong>18 €</strong>. Combien faut-il vendre de places <strong>au minimum</strong> pour ne pas perdre d'argent ?",
+      unite:"places",
+      reponse:170,
+      indice:"Traduis « ne pas perdre d'argent » : la recette doit être au moins égale aux frais. Ensuite, ce qui multiplie x d'un côté divise de l'autre — et 18 est positif, donc rien ne se retourne.",
+      explication:"18x ≥ 3 060, donc x ≥ 3 060 ÷ 18, soit x ≥ 170 : il faut <span class='rep'>170 places</span> au minimum. Contrôle : 170 × 18 = 3 060 € pile. Avec 169 places, on encaisse 3 042 € et il manque 18 €.",
+      rappel:"« Au minimum » se traduit par ≥, « au maximum » par ≤."
+    },
+    {
+      type:"qcm",
+      contexte:"Gestion du stock de câble sur une tournée.",
+      enonce:"Il reste <strong>240 m</strong> de multipaire au dépôt et chaque jour de tournée en consomme <strong>15 m</strong>. On veut qu'il en reste <strong>au moins 90 m</strong> à la fin. L'inéquation s'écrit <span class='mono'>240 − 15j ≥ 90</span>. Quelle est la solution ?",
+      options:["j ≤ 10 : dix jours au maximum","j ≥ 10 : dix jours au minimum","j ≤ 16","j ≤ 22"],
+      correct:0,
+      indice:"Isole le terme en j : tu vas arriver à −15j ≥ −150. Que se passe-t-il au moment de diviser les deux côtés par −15 ?",
+      explication:"240 − 15j ≥ 90 donne −15j ≥ −150. On divise par −15, un nombre <strong>négatif</strong> : le sens du signe se retourne, d'où j <strong>≤</strong> 10, soit <span class='rep'>dix jours au maximum</span>. Vérification : à 10 jours il reste 240 − 150 = 90 m ✓ ; à 11 jours, il n'en reste que 75, c'est en dessous. En oubliant de retourner le signe on trouve j ≥ 10, l'exact contraire — et le bon sens le signale aussitôt : plus la tournée dure, moins il reste de câble.",
+      rappel:"Division ou multiplication par un nombre négatif : le signe de l'inéquation se retourne. Toujours."
+    },
+    {
+      type:"qcm",
+      contexte:"Note laissée à la billetterie.",
+      enonce:"Il faut vendre <strong>au moins 170 places</strong> pour être à l'équilibre, et la salle en contient <strong>350</strong>. Comment écrire l'ensemble des nombres de places possibles ?",
+      options:["[170 ; 350]","]170 ; 350[","[350 ; 170]","[170 ; +∞["],
+      correct:0,
+      indice:"Est-ce que 170 places, exactement, fait partie des cas possibles ? Et 350 ?",
+      explication:"Les deux bornes sont atteignables — 170 places, c'est l'équilibre, et 350, c'est la salle pleine —, donc les deux crochets sont fermés : <span class='rep'>[170 ; 350]</span>. L'écriture ]170 ; 350[ exclurait justement ces deux cas, [350 ; 170] range les bornes à l'envers, et [170 ; +∞[ oublie que la salle a une jauge.",
+      rappel:"Un intervalle se lit du plus petit au plus grand ; crochet fermé quand la borne est acceptée."
+    },
+    {
+      type:"num",
+      contexte:"Accroche lumière, juste avant le montage.",
+      enonce:"La perche supporte <strong>250 kg</strong> au maximum. Le pont de structure pèse déjà <strong>46 kg</strong> et chaque découpe pèse <strong>8,5 kg</strong>. Combien de découpes peut-on accrocher au maximum ?",
+      unite:"découpes",
+      reponse:24,
+      indice:"Le pont pèse de toute façon : retire son poids de ce que la perche accepte. Ce qui reste se partage entre les découpes.",
+      explication:"46 + 8,5x ≤ 250 → 8,5x ≤ 204 → x ≤ 24, soit <span class='rep'>24 découpes</span>. Contrôle : 24 × 8,5 = 204 kg, plus les 46 kg du pont, on est à 250 kg pile. Une 25e monterait à 258,5 kg, au-dessus de la limite. Comme pour les projecteurs sur la ligne 16 A au module 1 : devant une limite de sécurité, on arrondit vers le bas.",
+      rappel:"Devant une charge maximale, on arrondit toujours vers le bas — jamais vers le haut."
+    }
+  ]
+},
+{
+  titre:"Les systèmes à deux inconnues",
+  sous:"Substitution, combinaison, lecture graphique",
+  theorie:`
+    <h3>Avant de commencer</h3>
+    <p>Deux inconnues demandent <strong>deux informations</strong>. On les écrit l'une sous l'autre et on cherche le couple de valeurs qui satisfait les deux en même temps.</p>
+    <p>Une soirée : <strong>100 billets vendus</strong>, à 24 € ou à 12 €, pour une recette de <strong>2 040 €</strong>.</p>
+    <span class="formule">x + y = 100 → le nombre de billets
+24x + 12y = 2 040 → la recette</span>
+    <p><strong>Méthode 1, la substitution.</strong> La première ligne donne y = 100 − x. On remplace dans la seconde :</p>
+    <span class="formule">24x + 12(100 − x) = 2 040
+24x + 1 200 − 12x = 2 040
+12x = 840 → x = 70, donc y = 30</span>
+    <p><strong>Méthode 2, la combinaison.</strong> On multiplie la première ligne par 12 (soit 12x + 12y = 1 200) et on la soustrait de la seconde : les y disparaissent, il reste 12x = 840. Même résultat.</p>
+    <p><strong>Prends la méthode qui te parle le plus</strong> : la substitution est souvent plus simple quand une inconnue est déjà seule, la combinaison quand les deux lignes se ressemblent. Aucune n'est plus « correcte » que l'autre.</p>
+    <p>Et on vérifie : 70 + 30 = 100 ✓ et 70 × 24 + 30 × 12 = 1 680 + 360 = 2 040 ✓.</p>
+    <p><strong>Vu du côté du graphique</strong>, chaque équation est une droite, et la solution du système est leur <strong>point d'intersection</strong> : le seul endroit qui appartient aux deux à la fois.</p>
+    ` + FIG_DROITES + `
+    <p>D'où deux cas particuliers : deux droites <strong>parallèles distinctes</strong> ne se rencontrent jamais, le système n'a aucune solution ; deux droites <strong>confondues</strong> se touchent partout, il y a une infinité de solutions.</p>`,
+  questions:[
+    {
+      type:"num",
+      contexte:"Bilan de la billetterie d'un soir.",
+      enonce:"<strong>180 billets</strong> ont été vendus, au tarif <strong>20 €</strong> ou au tarif <strong>12 €</strong>, pour une recette totale de <strong>3 120 €</strong>. Combien de billets à <strong>20 €</strong> ont été vendus ?",
+      unite:"billets",
+      reponse:120,
+      indice:"Suppose un instant que les 180 billets aient tous été vendus à 12 €. Quelle recette obtiendrait-on, et combien manque-t-il ? Chaque billet à 20 € rapporte 8 € de plus.",
+      explication:"Avec x billets à 20 € et y à 12 € : x + y = 180 et 20x + 12y = 3 120. En substituant y = 180 − x : 20x + 2 160 − 12x = 3 120, donc 8x = 960 et x = <span class='rep'>120 billets à 20 €</span> (et 60 à 12 €). Vérification : 120 + 60 = 180 ✓ et 120 × 20 + 60 × 12 = 2 400 + 720 = 3 120 ✓. L'indice décrivait l'autre chemin : 180 × 12 = 2 160 €, il manque 960 €, et chaque billet à 20 € comble 8 € — soit 960 ÷ 8 = 120 billets.",
+      rappel:"Deux inconnues, deux équations : le total des quantités et le total des montants."
+    },
+    {
+      type:"qcm",
+      contexte:"Tarifs du loueur, lus sur deux devis.",
+      enonce:"Une console + un multipaire coûtent <strong>40 €</strong> par jour ; trois consoles + un multipaire coûtent <strong>96 €</strong>. En notant c le prix d'une console et m celui d'un multipaire : <span class='mono'>c + m = 40</span> et <span class='mono'>3c + m = 96</span>. Quelle opération fait disparaître m d'un seul coup ?",
+      options:[
+        "Soustraire la première ligne de la seconde : (3c + m) − (c + m) = 96 − 40.",
+        "Additionner les deux lignes.",
+        "Multiplier la première ligne par 3, puis additionner.",
+        "Diviser la seconde ligne par 3."
+      ],
+      correct:0,
+      indice:"Le m apparaît avec exactement le même coefficient dans les deux lignes. Quelle opération annule deux quantités identiques ?",
+      explication:"m apparaît une fois dans chaque ligne, avec le même coefficient : la soustraction l'élimine. (3c + m) − (c + m) = 2c et 96 − 40 = 56, donc <span class='rep'>c = 28 €</span>, puis m = 40 − 28 = 12 €. Vérification : 3 × 28 + 12 = 96 ✓. Additionner donnerait 4c + 2m = 136, avec les deux inconnues toujours présentes. Diviser la seconde ligne par 3 n'élimine rien non plus.",
+      rappel:"On élimine une inconnue quand ses coefficients sont identiques (soustraction) ou opposés (addition)."
+    },
+    {
+      type:"num",
+      contexte:"Devis pour une soirée avec musiciens.",
+      enonce:"<strong>Deux musiciens et trois techniciens</strong> coûtent <strong>1 150 €</strong>. <strong>Un musicien et un technicien</strong> coûtent <strong>500 €</strong>. Combien coûte un <strong>technicien</strong> ?",
+      unite:"€",
+      reponse:150,
+      indice:"La deuxième information se transforme facilement : un musicien coûte 500 € moins le prix d'un technicien. Remplace « musicien » par cette expression dans la première.",
+      explication:"De m + t = 500 on tire m = 500 − t. En remplaçant dans 2m + 3t = 1 150 : 2(500 − t) + 3t = 1 150 → 1 000 − 2t + 3t = 1 150 → t = <span class='rep'>150 €</span>, et le musicien coûte 350 €. Vérification : 350 + 150 = 500 ✓ et 2 × 350 + 3 × 150 = 700 + 450 = 1 150 ✓. Attention au 2 devant la parenthèse : il multiplie aussi le −t, sinon le calcul part de travers dès la deuxième ligne.",
+      rappel:"Substituer, c'est remplacer une inconnue par son expression en fonction de l'autre."
+    },
+    {
+      type:"qcm",
+      contexte:"Lecture graphique d'un système.",
+      enonce:"On représente les deux équations d'un système par deux droites dans un repère. Elles sont <strong>parallèles et distinctes</strong>. Que peut-on en conclure ?",
+      options:[
+        "Le système n'a aucune solution : aucun couple ne vérifie les deux équations à la fois.",
+        "Le système a une infinité de solutions.",
+        "Le système a une solution unique, située très loin sur les droites.",
+        "Le système a deux solutions, une sur chaque droite."
+      ],
+      correct:0,
+      indice:"La solution d'un système, c'est le point commun aux deux droites. Deux droites parallèles distinctes ont-elles un point commun ?",
+      explication:"Résoudre un système, c'est chercher le point que les deux droites ont en commun. Deux parallèles distinctes ne se rencontrent jamais : <span class='rep'>le système n'a aucune solution</span>. Les deux autres cas complètent le tableau : deux droites sécantes donnent une solution unique — le cas courant, celui du dessin du rappel — et deux droites confondues en donnent une infinité, puisque tous leurs points conviennent.",
+      rappel:"Sécantes → une solution. Parallèles distinctes → aucune. Confondues → une infinité."
+    }
+  ]
+}
+];
+
+/* ============================================================
+   ÉTAT
+   ============================================================ */
+const state = {
+  level:0, q:0, attempts:0, hintUsed:false, answered:false,
+  results: LEVELS.map(l => new Array(l.questions.length).fill(null)),
+  feeling: LEVELS.map(() => null)
+};
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goHub(){
+  renderHub();
+  showScreen('scr-hub');
+}
+
+function levelDone(i){
+  return state.results[i].every(r => r !== null);
+}
+
+function renderHub(){
+  const grid = document.getElementById('hub-grid');
+  grid.innerHTML = '';
+  LEVELS.forEach((lv,i) => {
+    const done = levelDone(i);
+    const btn = document.createElement('button');
+    btn.className = 'niveau-card' + (done ? ' done' : '');
+    let etat = 'À faire';
+    if(done){
+      const first = state.results[i].filter(r => r==='first').length;
+      etat = first + '/' + state.results[i].length + ' ✓';
+    }
+    btn.innerHTML =
+      '<span class="niveau-num">' + String(i+1).padStart(2,'0') + '</span>' +
+      '<span class="niveau-info"><strong>' + lv.titre + '</strong><span>' + lv.sous + '</span></span>' +
+      '<span class="niveau-etat">' + etat + '</span>';
+    btn.onclick = () => startLevel(i);
+    grid.appendChild(btn);
+  });
+
+  const nbDone = LEVELS.filter((_,i) => levelDone(i)).length;
+  document.getElementById('hub-progress').style.width = (nbDone / LEVELS.length * 100) + '%';
+  document.getElementById('hub-compteur').textContent = nbDone + ' / ' + LEVELS.length + ' étapes';
+  document.getElementById('btn-fiche').style.display = nbDone > 0 ? '' : 'none';
+}
+
+/* ============================================================
+   DÉROULÉ D'UN NIVEAU
+   ============================================================ */
+function startLevel(i){
+  state.level = i;
+  state.q = 0;
+  state.results[i] = new Array(LEVELS[i].questions.length).fill(null);
+  state.feeling[i] = null;
+  document.getElementById('niv-theorie').innerHTML =
+    '<div class="theorie">' + LEVELS[i].theorie + '</div>';
+  renderQuestion();
+  showScreen('scr-niveau');
+}
+
+function renderLeds(){
+  const box = document.getElementById('niv-leds');
+  box.innerHTML = '';
+  state.results[state.level].forEach((r,idx) => {
+    const d = document.createElement('span');
+    let cls = 'led';
+    if(r === 'first') cls += ' on-first';
+    else if(r === 'helped') cls += ' on-helped';
+    else if(r === 'shown') cls += ' on-shown';
+    else if(idx === state.q) cls += ' active';
+    d.className = cls;
+    box.appendChild(d);
+  });
+}
+
+function renderQuestion(){
+  const lv = LEVELS[state.level];
+  const q = lv.questions[state.q];
+  state.attempts = 0;
+  state.hintUsed = false;
+  state.answered = false;
+
+  document.getElementById('niv-label').textContent =
+    'Étape ' + (state.level+1) + ' · ' + lv.titre;
+  document.getElementById('q-compteur').textContent =
+    'Question ' + (state.q+1) + ' sur ' + lv.questions.length;
+  document.getElementById('q-contexte').innerHTML =
+    q.contexte ? '<div class="q-contexte">' + q.contexte + '</div>' : '';
+  document.getElementById('q-enonce').innerHTML = q.enonce;
+  document.getElementById('q-tableau').innerHTML = q.tableau || '';
+  document.getElementById('q-feedback').innerHTML = '';
+  renderLeds();
+
+  const zone = document.getElementById('q-zone');
+  zone.innerHTML = '';
+
+  if(q.type === 'qcm'){
+    const box = document.createElement('div');
+    box.className = 'options';
+    q.options.forEach((opt,idx) => {
+      const b = document.createElement('button');
+      b.className = 'option';
+      b.innerHTML = opt;
+      b.onclick = () => checkQcm(idx,b);
+      box.appendChild(b);
+    });
+    zone.appendChild(box);
+  } else {
+    zone.innerHTML =
+      '<div class="num-zone">' +
+        '<div class="num-field">' +
+          '<input type="text" inputmode="decimal" class="num-input" id="num-input" ' +
+            'placeholder="Ta réponse — tu peux aussi taper un calcul" autocomplete="off">' +
+          '<div class="calc-preview" id="calc-preview"></div>' +
+        '</div>' +
+        (q.unite ? '<div class="unite">' + q.unite + '</div>' : '') +
+      '</div>';
+    const input = document.getElementById('num-input');
+    input.addEventListener('input', updatePreview);
+    input.addEventListener('keydown', e => {
+      if(e.key === 'Enter' && !state.answered) checkNum();
+    });
+    setTimeout(() => input.focus(), 120);
+  }
+
+  renderActions();
+}
+
+function renderActions(){
+  const q = LEVELS[state.level].questions[state.q];
+  const box = document.getElementById('q-actions');
+  box.innerHTML = '';
+
+  if(state.answered){
+    const b = document.createElement('button');
+    b.className = 'btn';
+    const last = state.q === LEVELS[state.level].questions.length - 1;
+    b.textContent = last ? 'Voir le bilan de l\u2019étape ➜' : 'Question suivante ➜';
+    b.onclick = nextQuestion;
+    box.appendChild(b);
+    return;
+  }
+
+  if(q.type === 'num'){
+    const v = document.createElement('button');
+    v.className = 'btn';
+    v.textContent = 'Vérifier';
+    v.onclick = checkNum;
+    box.appendChild(v);
+  }
+  if(!state.hintUsed){
+    const h = document.createElement('button');
+    h.className = 'btn btn-ghost btn-sm';
+    h.textContent = 'Un indice';
+    h.onclick = showHint;
+    box.appendChild(h);
+  }
+}
+
+function showHint(){
+  const q = LEVELS[state.level].questions[state.q];
+  state.hintUsed = true;
+  document.getElementById('q-feedback').innerHTML =
+    '<div class="feedback hint"><strong>Un coup de pouce</strong>' + q.indice + '</div>';
+  renderActions();
+}
+
+/* ---------- QCM ---------- */
+function checkQcm(idx, btn){
+  if(state.answered) return;
+  const q = LEVELS[state.level].questions[state.q];
+  const buttons = document.querySelectorAll('#q-zone .option');
+  buttons.forEach(b => b.disabled = true);
+  state.answered = true;
+
+  if(idx === q.correct){
+    btn.classList.add('correct');
+    state.results[state.level][state.q] = state.hintUsed ? 'helped' : 'first';
+    document.getElementById('q-feedback').innerHTML =
+      '<div class="feedback ok"><strong>C\u2019est ça.</strong>' + q.explication +
+      '<br><br><em>' + q.rappel + '</em></div>';
+  } else {
+    btn.classList.add('wrong');
+    buttons[q.correct].classList.add('correct');
+    state.results[state.level][state.q] = 'shown';
+    document.getElementById('q-feedback').innerHTML =
+      '<div class="feedback show"><strong>Pas celle-là — regarde pourquoi</strong>' + q.explication +
+      '<br><br><em>' + q.rappel + '</em></div>';
+  }
+  renderLeds();
+  renderActions();
+}
+
+/* ---------- Numérique ---------- */
+function checkNum(){
+  if(state.answered) return;
+  const q = LEVELS[state.level].questions[state.q];
+  const input = document.getElementById('num-input');
+  const raw = input.value.trim();
+  if(raw === '') { input.focus(); return; }
+
+  const val = evaluate(raw);
+  const fb = document.getElementById('q-feedback');
+
+  if(val !== null && Math.abs(val - q.reponse) <= 0.02){
+    input.classList.add('correct');
+    input.disabled = true;
+    state.answered = true;
+    state.results[state.level][state.q] =
+      (state.attempts === 0 && !state.hintUsed) ? 'first' : 'helped';
+    fb.innerHTML = '<div class="feedback ok"><strong>C\u2019est ça.</strong>' + q.explication +
+      '<br><br><em>' + q.rappel + '</em></div>';
+  } else {
+    state.attempts++;
+    input.classList.add('wrong');
+    setTimeout(() => input.classList.remove('wrong'), 900);
+    if(state.attempts === 1){
+      state.hintUsed = true;
+      fb.innerHTML = '<div class="feedback hint"><strong>Pas encore — essaie encore une fois</strong>' +
+        q.indice + '</div>';
+      input.select();
+    } else {
+      input.disabled = true;
+      state.answered = true;
+      state.results[state.level][state.q] = 'shown';
+      fb.innerHTML = '<div class="feedback show"><strong>Je te montre le chemin</strong>' +
+        q.explication + '<br><br><em>' + q.rappel + '</em></div>';
+    }
+  }
+  renderLeds();
+  renderActions();
+}
+
+function nextQuestion(){
+  if(state.q < LEVELS[state.level].questions.length - 1){
+    state.q++;
+    renderQuestion();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else {
+    showBilan();
+  }
+}
+
+/* ============================================================
+   MINI-CALCULATRICE (aperçu en direct)
+   ============================================================ */
+function updatePreview(){
+  const raw = this.value;
+  const prev = document.getElementById('calc-preview');
+  if(!/[+\-*/×÷()]/.test(raw.replace(/^-/,''))){ prev.textContent = ''; return; }
+  const val = evaluate(raw);
+  prev.textContent = (val === null) ? '' : '= ' + fmt(val);
+}
+
+function fmt(n){
+  const r = Math.round(n * 1000) / 1000;
+  return String(r).replace('.', ',');
+}
+
+/* Évaluateur d'expressions — analyse descendante, sans eval() */
+function evaluate(str){
+  const s = str.replace(/\s/g,'').replace(/×/g,'*').replace(/÷/g,'/').replace(/,/g,'.');
+  if(s === '' || !/^[0-9+\-*/().]+$/.test(s)) return null;
+  let pos = 0;
+  function peek(){ return s[pos]; }
+  function expr(){
+    let v = term();
+    if(v === null) return null;
+    while(peek() === '+' || peek() === '-'){
+      const op = s[pos++]; const r = term();
+      if(r === null) return null;
+      v = (op === '+') ? v + r : v - r;
+    }
+    return v;
+  }
+  function term(){
+    let v = factor();
+    if(v === null) return null;
+    while(peek() === '*' || peek() === '/'){
+      const op = s[pos++]; const r = factor();
+      if(r === null) return null;
+      if(op === '/' && r === 0) return null;
+      v = (op === '*') ? v * r : v / r;
+    }
+    return v;
+  }
+  function factor(){
+    if(peek() === '+'){ pos++; return factor(); }
+    if(peek() === '-'){ pos++; const v = factor(); return v === null ? null : -v; }
+    if(peek() === '('){
+      pos++; const v = expr();
+      if(peek() !== ')') return null;
+      pos++; return v;
+    }
+    let start = pos;
+    while(pos < s.length && /[0-9.]/.test(s[pos])) pos++;
+    if(start === pos) return null;
+    const n = parseFloat(s.slice(start,pos));
+    return isNaN(n) ? null : n;
+  }
+  const result = expr();
+  if(result === null || pos !== s.length || !isFinite(result)) return null;
+  return result;
+}
+
+/* ============================================================
+   BILAN DE NIVEAU
+   ============================================================ */
+function compte(arr){
+  return {
+    first: arr.filter(r => r==='first').length,
+    helped: arr.filter(r => r==='helped').length,
+    shown: arr.filter(r => r==='shown').length,
+    total: arr.length
+  };
+}
+
+function showBilan(){
+  const i = state.level;
+  const c = compte(state.results[i]);
+  const pct = Math.round(c.first / c.total * 100);
+
+  document.getElementById('bil-eyebrow').textContent =
+    'Étape ' + (i+1) + ' terminée · ' + LEVELS[i].titre;
+
+  let med, grade, msg;
+  if(pct >= 85){ med='🏆'; grade='A — Excellent'; msg="C'est solide. Ce thème ne demandera pas de temps supplémentaire pendant les séances de cours."; }
+  else if(pct >= 65){ med='🥇'; grade='B — Très bien'; msg="Les mécanismes sont là. Un ou deux points à consolider, rien de plus."; }
+  else if(pct >= 45){ med='🥈'; grade='C — Satisfaisant'; msg="La base est présente mais encore hésitante. Ce thème mérite un passage en cours — c'est exactement le genre de chose qui se débloque en vingt minutes à deux."; }
+  else { med='🥉'; grade='D — À reprendre'; msg="Ce thème demande une remise à plat, et c'est parfaitement normal après une longue pause. L'avoir repéré maintenant, c'est du temps gagné."; }
+
+  document.getElementById('bil-medaille').textContent = med;
+  document.getElementById('bil-grade').textContent = grade + ' · ' + pct + '% trouvé seule';
+  document.getElementById('bil-message').textContent = msg;
+
+  document.getElementById('bil-stats').innerHTML =
+    '<div class="stat v"><span class="val">' + c.first + '</span><span class="lab">trouvé seule</span></div>' +
+    '<div class="stat o"><span class="val">' + c.helped + '</span><span class="lab">avec un coup de main</span></div>' +
+    '<div class="stat r"><span class="val">' + c.shown + '</span><span class="lab">réponse montrée</span></div>';
+
+  const rz = document.getElementById('bil-ressenti');
+  rz.innerHTML = '';
+  [['ok','😊','Ça va'],['moyen','😐','Moyen'],['revoir','😕','À revoir']].forEach(([k,e,l]) => {
+    const b = document.createElement('button');
+    b.className = 'r-btn' + (state.feeling[i]===k ? ' sel' : '');
+    b.innerHTML = '<span class="emo">' + e + '</span>' + l;
+    b.onclick = () => { state.feeling[i] = k; showBilan(); };
+    rz.appendChild(b);
+  });
+
+  const next = document.getElementById('bil-suivant');
+  const last = i === LEVELS.length - 1;
+  next.textContent = last ? 'Voir ma fiche de synthèse ➜' : 'Étape suivante ➜';
+  next.onclick = () => { if(last) showFinal(); else startLevel(i+1); };
+  document.getElementById('bil-recommencer').onclick = () => startLevel(i);
+
+  showScreen('scr-bilan');
+  if(pct >= 70) confetti();
+}
+
+/* ============================================================
+   FICHE DE SYNTHÈSE FINALE
+   ============================================================ */
+function showFinal(){
+  const faits = LEVELS.map((_,i) => i).filter(i => levelDone(i));
+  let tf=0, th=0, ts=0, tt=0;
+  faits.forEach(i => { const c = compte(state.results[i]); tf+=c.first; th+=c.helped; ts+=c.shown; tt+=c.total; });
+  const pct = tt ? Math.round(tf/tt*100) : 0;
+
+  document.getElementById('fin-lead').textContent =
+    faits.length < LEVELS.length
+      ? 'Fiche provisoire : ' + faits.length + ' étape(s) sur ' + LEVELS.length + ' terminée(s). Tu peux revenir la compléter.'
+      : 'Module terminé — ' + pct + '% des questions trouvées sans aide. Cette fiche indique où passer le temps des deux séances de cours.';
+
+  document.getElementById('fin-stats').innerHTML =
+    '<div class="stat v"><span class="val">' + tf + '</span><span class="lab">trouvé seule</span></div>' +
+    '<div class="stat o"><span class="val">' + th + '</span><span class="lab">avec un coup de main</span></div>' +
+    '<div class="stat r"><span class="val">' + ts + '</span><span class="lab">réponse montrée</span></div>';
+
+  const tb = document.getElementById('fin-tbody');
+  tb.innerHTML = '';
+  const prio = [];
+
+  LEVELS.forEach((lv,i) => {
+    const tr = document.createElement('tr');
+    if(!levelDone(i)){
+      tr.innerHTML = '<td class="theme">' + lv.titre + '</td>' +
+        '<td class="score">—</td><td>—</td><td><span class="verdict fragile">Pas encore fait</span></td>';
+      tb.appendChild(tr);
+      return;
+    }
+    const c = compte(state.results[i]);
+    const p = Math.round(c.first/c.total*100);
+    const f = state.feeling[i];
+    const fLabel = f==='ok' ? '😊 Ça va' : f==='moyen' ? '😐 Moyen' : f==='revoir' ? '😕 À revoir' : '—';
+
+    let vClass, vText;
+    if(p >= 75 && f !== 'revoir'){ vClass='acquis'; vText='Acquis'; }
+    else if(p >= 50 && f !== 'revoir'){ vClass='fragile'; vText='À consolider'; }
+    else { vClass='prio'; vText='Priorité'; prio.push(lv.titre); }
+
+    tr.innerHTML = '<td class="theme">' + lv.titre + '</td>' +
+      '<td class="score">' + c.first + '/' + c.total + '</td>' +
+      '<td>' + fLabel + '</td>' +
+      '<td><span class="verdict ' + vClass + '">' + vText + '</span></td>';
+    tb.appendChild(tr);
+  });
+
+  const pz = document.getElementById('fin-priorites');
+  if(prio.length){
+    pz.innerHTML = '<div class="note-doux" style="margin-top:20px"><strong>À mettre sur la table au début du cours :</strong> ' +
+      prio.join(', ') + '. Le reste peut être survolé rapidement.</div>';
+  } else if(faits.length === LEVELS.length){
+    pz.innerHTML = '<div class="note-doux" style="margin-top:20px"><strong>Aucune priorité rouge.</strong> ' +
+      'Le calcul littéral tient, y compris les identités remarquables et les systèmes — c\u2019est le morceau le plus dense du parcours. ' +
+      'Le temps de cours peut aller vers les deux derniers thèmes : le second degré et les fonctions.</div>';
+  } else {
+    pz.innerHTML = '';
+  }
+
+  showScreen('scr-final');
+  if(faits.length === LEVELS.length && pct >= 70) confetti();
+}
+
+function resetAll(){
+  state.results = LEVELS.map(l => new Array(l.questions.length).fill(null));
+  state.feeling = LEVELS.map(() => null);
+  goHub();
+}
+
+/* ============================================================
+   CONFETTIS
+   ============================================================ */
+function confetti(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const box = document.getElementById('confetti');
+  const cols = ['#3fc9a8','#f0a85c','#4ade80','#eef2f8','#7dd3fc'];
+  for(let i=0;i<46;i++){
+    const c = document.createElement('i');
+    c.className = 'conf';
+    c.style.left = Math.random()*100 + '%';
+    c.style.background = cols[Math.floor(Math.random()*cols.length)];
+    c.style.animationDuration = (1.9 + Math.random()*1.5) + 's';
+    c.style.animationDelay = (Math.random()*0.5) + 's';
+    box.appendChild(c);
+    setTimeout(() => c.remove(), 4200);
+  }
+}
+</script>
+</body>
+</html>
