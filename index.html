@@ -412,15 +412,15 @@ table.data tr.total td{background:var(--bg3);color:var(--text);font-weight:600}
     <p class="lead">Développer, factoriser, résoudre. Tout le monde bloque un jour sur « le calcul avec des lettres » — et presque toujours pour la même raison : personne n'a dit clairement à quoi sert la lettre. On commence par là.</p>
 
     <ul class="objectifs">
-      <li>5 étapes courtes, 20 questions au total</li>
-      <li>Environ 40 minutes, et tu peux t'arrêter entre deux étapes</li>
+      <li>5 étapes courtes, 30 questions au total</li>
+      <li>Environ 1 heure en tout, et tu peux t'arrêter entre deux étapes</li>
       <li>Un rappel de cours avant chaque série — rien à réviser avant</li>
       <li>Un indice disponible à tout moment, sans pénalité</li>
       <li>À la fin : une fiche des points à travailler, imprimable</li>
     </ul>
 
     <div class="note-doux">
-      <strong>Ce module n'est pas une évaluation.</strong> Il sert à repérer ce qui est déjà là et ce qui demande un coup de main. Une réponse fausse ici, c'est une information utile — pas une erreur.<br><br>C'est le module le plus dense du parcours : cinq étapes au lieu de quatre. Rien n'oblige à tout enchaîner. Deux étapes, une pause, la suite plus tard : ça marche très bien aussi.
+      <strong>Ce module n'est pas une évaluation.</strong> Il sert à repérer ce qui est déjà là et ce qui demande un coup de main. Une réponse fausse ici, c'est une information utile — pas une erreur.<br><br>C'est le module le plus dense du parcours : cinq étapes. Rien n'oblige à tout enchaîner. Deux étapes, une pause, la suite plus tard : ça marche très bien aussi.
     </div>
 
     <div class="btn-row">
@@ -498,7 +498,7 @@ table.data tr.total td{background:var(--bg3);color:var(--text);font-weight:600}
 <!-- ========================= BILAN FINAL ========================= -->
 <section id="scr-final" class="screen">
   <div class="card">
-    <div class="eyebrow">Module 3 terminé · Le calcul avec des lettres</div>
+    <div class="eyebrow">Module 3 — Le calcul avec des lettres — terminé</div>
     <h1 id="fin-titre">Ta fiche de synthèse</h1>
     <p class="lead" id="fin-lead" style="margin-top:10px"></p>
 
@@ -581,9 +581,9 @@ C = coût de la représentation · n = nombre de techniciens</span>
     <p>Les 450 €, c'est ce qu'on paie de toute façon : les <strong>frais fixes</strong>. Les 85 €, c'est ce que coûte <strong>chaque</strong> technicien : ce nombre-là multiplie n.</p>
     <p><strong>Le vocabulaire en trois mots.</strong> Les <strong>termes</strong> sont les morceaux séparés par + ou − : ici 450 et 85n. Dans 85n, 85 et n sont les <strong>facteurs</strong>, et 85 est le <strong>coefficient</strong> de n.</p>
     <p><strong>Réduire</strong>, c'est regrouper ce qui est de même nature : les n avec les n, les nombres seuls avec les nombres seuls.</p>
-    <span class="formule">5n + 3n = 8n
-mais 5n + 3 ne se réduit pas</span>
-    <p>C'est exactement la logique du plateau : 5 projecteurs + 3 projecteurs = 8 projecteurs, mais 5 projecteurs + 3 câbles ne font pas « 8 » de quoi que ce soit.</p>`,
+    <span class="formule">4n + 3n = 7n
+mais 4n + 3 ne se réduit pas</span>
+    <p>C'est exactement la logique du plateau : 4 projecteurs + 3 projecteurs = 7 projecteurs, mais 4 projecteurs + 3 câbles ne font pas « 7 » de quoi que ce soit.</p>`,
   questions:[
     {
       type:"num",
@@ -624,7 +624,27 @@ mais 5n + 3 ne se réduit pas</span>
       indice:"Sur ces 1 300 €, une partie ne dépend pas du nombre de techniciens. Retire-la d'abord : que reste-t-il à partager, et à quel prix l'unité ?",
       explication:"Les 450 € de frais fixes se paient de toute façon : 1 300 − 450 = 850 € pour les techniciens. Chacun coûtant 85 € : 850 ÷ 85 = <span class='rep'>10 techniciens</span>. Vérification : 450 + 85 × 10 = 1 300 ✓. Ce que tu viens de faire porte un nom : tu as résolu une équation. C'est tout l'objet de l'étape 3.",
       rappel:"Une formule se lit dans les deux sens : connaissant le résultat, on remonte jusqu'à la case vide."
-    }
+    },
+    {
+      type:"num",
+      contexte:"Tarif d'un régisseur indépendant.",
+      enonce:"Il facture <strong>30 € par heure</strong> de travail, plus <strong>45 € de déplacement</strong> par prestation. Combien coûte une prestation de <strong>7 heures</strong> ?",
+      unite:"€",
+      reponse:255,
+      indice:"Écris d'abord l'expression du coût pour h heures, puis remplace h par 7. Lequel des deux nombres est collé à la lettre ?",
+      explication:"Le coût s'écrit 30h + 45. Pour 7 heures : 30 × 7 = 210 €, plus les 45 € de déplacement, soit <span class='rep'>255 €</span>. L'erreur à éviter est (30 + 45) × 7 = 525 € : le déplacement ne se paie qu'une fois, pas à chaque heure.",
+      rappel:"Le forfait s'ajoute une seule fois, quel que soit le nombre d'heures."
+    },
+    {
+      type:"qcm",
+      contexte:"Note de cadrage du budget technique.",
+      enonce:"Le budget son vaut <strong>le double du budget lumière, diminué de 200 €</strong>. En notant <span class='mono'>L</span> le budget lumière, comment s'écrit le budget son ?",
+      options:["2L − 200","2(L − 200)","L² − 200","2L + 200"],
+      correct:0,
+      indice:"Reprends la phrase morceau par morceau : « le double du budget lumière » d'abord, et seulement ensuite « diminué de 200 € ».",
+      explication:"« Le double du budget lumière » s'écrit 2L ; « diminué de 200 € » retire 200 à ce résultat : <span class='rep'>2L − 200</span>. L'écriture 2(L − 200) dirait autre chose — on retirerait 200 € au budget lumière <em>avant</em> de doubler, ce qui enlèverait 400 € au total. Quant à L², c'est le budget multiplié par lui-même : doubler et mettre au carré n'ont rien à voir.",
+      rappel:"L'ordre des mots dans la phrase donne l'ordre des opérations dans l'expression."
+    },
   ]
 },
 {
@@ -635,9 +655,9 @@ mais 5n + 3 ne se réduit pas</span>
     <p><strong>Développer</strong>, c'est transformer un produit en somme. <strong>Factoriser</strong>, c'est refaire le chemin dans l'autre sens.</p>
     <span class="formule">k(a + b) = ka + kb
 (a + b)(c + d) = ac + ad + bc + bd</span>
-    <p>Un exemple de plateau : trois loges à équiper, chacune avec un miroir à 40 € et deux chaises à 25 € (donc 50 €). On peut calculer 3 × (40 + 50) = 3 × 90 = 270 €, ou bien 3 × 40 + 3 × 50 = 120 + 150 = 270 €. Même résultat : c'est ça, la distributivité.</p>
+    <p>Un exemple de plateau : trois loges à équiper, chacune avec un miroir à 40 € et deux chaises à 30 € (donc 60 €). On peut calculer 3 × (40 + 60) = 3 × 100 = 300 €, ou bien 3 × 40 + 3 × 60 = 120 + 180 = 300 €. Même résultat : c'est ça, la distributivité.</p>
     <p><strong>Factoriser</strong>, c'est repérer ce qui est commun et le sortir devant :</p>
-    <span class="formule">12x + 18 = 6 × 2x + 6 × 3 = 6(2x + 3)</span>
+    <span class="formule">20x + 35 = 5 × 4x + 5 × 7 = 5(4x + 7)</span>
     <p><strong>Les trois identités remarquables</strong> — celles qui tombent à tous les tests :</p>
     <span class="formule">(a + b)² = a² + 2ab + b²
 (a − b)² = a² − 2ab + b²
@@ -684,7 +704,27 @@ mais 5n + 3 ne se réduit pas</span>
       indice:"Développe les quatre produits : x × x, x × (−3), 3 × x, 3 × (−3). Que donnent les deux termes du milieu une fois additionnés ?",
       explication:"(x + 3)(x − 3) = x² − 3x + 3x − 9 : les deux termes du milieu se neutralisent et il reste <span class='rep'>x² − 9</span>. La réponse x² − 6x + 9 est le développement de (x − 3)² : c'est la confusion la plus fréquente entre les deux identités. Vérifie avec x = 5 : la scène ferait 8 m sur 2 m, soit 16 m², et x² − 9 = 25 − 9 = 16 ✓.",
       rappel:"(a + b)(a − b) = a² − b² : les termes du milieu s'annulent."
-    }
+    },
+    {
+      type:"qcm",
+      contexte:"Un local de stockage à mesurer.",
+      enonce:"Il forme un rectangle de <span class='mono'>(x + 5)</span> mètres sur <span class='mono'>(x + 3)</span> mètres. Quelle est son aire ?",
+      options:["x² + 8x + 15","x² + 15","x² + 8x + 8","x² + 2x + 15"],
+      correct:0,
+      indice:"Quatre produits à faire : x × x, x × 3, 5 × x, puis 5 × 3. Les deux termes en x se regroupent ensuite.",
+      explication:"(x + 5)(x + 3) = x² + 3x + 5x + 15 = <span class='rep'>x² + 8x + 15</span>. La réponse x² + 15 oublie les deux produits croisés — la même erreur que sur (x + 2)². Contrôle avec x = 2 : le local ferait 7 m sur 5 m, soit 35 m², et x² + 8x + 15 = 4 + 16 + 15 = 35 ✓.",
+      rappel:"Une double distributivité donne toujours quatre produits avant réduction."
+    },
+    {
+      type:"num",
+      contexte:"Petit agrandissement du praticable carré.",
+      enonce:"Il mesure <strong>4 m</strong> de côté et on l'agrandit de <strong>1 m</strong> dans les deux directions. Combien de <strong>mètres carrés gagne-t-on</strong> ?",
+      unite:"m²",
+      reponse:9,
+      indice:"Calcule l'aire d'avant et l'aire d'après, puis fais la différence. Un mètre de plus sur chaque côté, ce n'est pas un mètre carré de plus.",
+      explication:"Avant : 4 × 4 = 16 m². Après : 5 × 5 = 25 m². On gagne donc <span class='rep'>9 m²</span>. Par la formule, ce gain vaut 2ab + b² = 2 × 4 × 1 + 1 = 9 m² : deux bandes de 4 m² le long des côtés, plus le petit carré de 1 m² dans le coin. Neuf fois plus que le mètre carré qu'on imagine spontanément.",
+      rappel:"Agrandir un carré de b sur chaque côté ajoute 2ab + b², pas b²."
+    },
   ]
 },
 {
@@ -696,11 +736,11 @@ mais 5n + 3 ne se réduit pas</span>
     <p>Tu as déjà appliqué la règle au module 1, en isolant I dans <span class="mono">P = U × I</span> :</p>
     <span class="formule">ce qui s'ajoute d'un côté se retire de l'autre
 ce qui multiplie d'un côté divise de l'autre</span>
-    <p>Un exemple complet, avec le devis de l'étape 1 :</p>
-    <span class="formule">450 + 85n = 1 300
-85n = 1 300 − 450 = 850
-n = 850 ÷ 85 = 10</span>
-    <p><strong>Et on vérifie, toujours.</strong> On remplace n par 10 dans l'équation de départ : 450 + 85 × 10 = 1 300 ✓. Trente secondes de calcul qui transforment un « j'espère » en « j'en suis sûre ». Le jour du test, c'est aussi ce qui permet d'éliminer des propositions d'un QCM sans même résoudre : on teste les réponses proposées.</p>
+    <p>Un exemple complet, avec la facture d'un loueur qui prend 60 € de forfait plus 35 € par jour :</p>
+    <span class="formule">60 + 35n = 375
+35n = 375 − 60 = 315
+n = 315 ÷ 35 = 9</span>
+    <p><strong>Et on vérifie, toujours.</strong> On remplace n par 9 dans l'équation de départ : 60 + 35 × 9 = 375 ✓. Trente secondes de calcul qui transforment un « j'espère » en « j'en suis sûre ». Le jour du test, c'est aussi ce qui permet d'éliminer des propositions d'un QCM sans même résoudre : on teste les réponses proposées.</p>
     <p>Quand la lettre apparaît <strong>des deux côtés</strong>, la première manœuvre est toujours la même : les lettres d'un côté, les nombres de l'autre.</p>`,
   questions:[
     {
@@ -726,11 +766,11 @@ n = 850 ÷ 85 = 10</span>
     {
       type:"qcm",
       contexte:"Trois techniciens facturent la même chose.",
-      enonce:"Chacun des <strong>trois</strong> techniciens facture <strong>40 € de déplacement</strong> plus <span class='mono'>x</span> € de service. Le total s'élève à <strong>285 €</strong>. Que vaut x ?",
-      options:["55 €","95 €","81,67 €","245 €"],
+      enonce:"Chacun des <strong>trois</strong> techniciens facture <strong>45 € de déplacement</strong> plus <span class='mono'>x</span> € de service. Le total s'élève à <strong>300 €</strong>. Que vaut x ?",
+      options:["55 €","100 €","85 €","255 €"],
       correct:0,
-      indice:"L'équation s'écrit 3(x + 40) = 285. Attention : le 3 multiplie tout le contenu de la parenthèse, déplacement compris.",
-      explication:"3(x + 40) = 285 → x + 40 = 95 → x = <span class='rep'>55 €</span>. Vérification : 3 × (55 + 40) = 3 × 95 = 285 ✓. La réponse 95 € correspond à un arrêt en cours de route, avant d'avoir retiré les 40 €. Et 81,67 € vient d'un 3x + 40 = 285 : le 3 n'a été appliqué qu'à x, alors que le déplacement est lui aussi payé trois fois.",
+      indice:"L'équation s'écrit 3(x + 45) = 300. Attention : le 3 multiplie tout le contenu de la parenthèse, déplacement compris.",
+      explication:"3(x + 45) = 300 → x + 45 = 100 → x = <span class='rep'>55 €</span>. Vérification : 3 × (55 + 45) = 3 × 100 = 300 ✓. La réponse 100 € correspond à un arrêt en cours de route, avant d'avoir retiré les 45 €. Et 85 € vient d'un 3x + 45 = 300 : le 3 n'a été appliqué qu'à x, alors que le déplacement est lui aussi payé trois fois.",
       rappel:"Un facteur devant une parenthèse multiplie tout ce qu'elle contient."
     },
     {
@@ -742,7 +782,32 @@ n = 850 ÷ 85 = 10</span>
       indice:"Appelle L le budget lumière. Comment s'écrit celui du décor avec cette même lettre ? Et leur somme ?",
       explication:"Si L est le budget lumière, le décor vaut 2L, donc L + 2L = 7 200, soit 3L = 7 200 et L = <span class='rep'>2 400 €</span> (le décor prend les 4 800 € restants). Vérification en deux temps : 2 400 + 4 800 = 7 200 ✓ <strong>et</strong> 4 800 est bien le double de 2 400 ✓. Contrôler le seul total ne suffirait pas — 3 600 et 3 600 donnent aussi 7 200, sans respecter la condition du double.",
       rappel:"Une solution se vérifie sur toutes les conditions de l'énoncé, pas seulement sur la dernière."
-    }
+    },
+    {
+      type:"num",
+      contexte:"Deux loueurs de camion à comparer.",
+      enonce:"Le loueur A demande <strong>200 € de forfait plus 30 € par jour</strong>. Le loueur B demande <strong>80 € de forfait plus 50 € par jour</strong>. À partir de combien de jours les deux formules coûtent-elles <strong>exactement la même chose</strong> ?",
+      unite:"jours",
+      reponse:6,
+      indice:"Écris le prix de chaque loueur en fonction du nombre de jours, puis cherche le nombre de jours qui rend les deux expressions égales. Les termes en j se regroupent d'un côté, les nombres de l'autre.",
+      explication:"200 + 30j = 80 + 50j. On regroupe : 200 − 80 = 50j − 30j, soit 120 = 20j et j = <span class='rep'>6 jours</span>. Vérification : chez A, 200 + 180 = 380 € ; chez B, 80 + 300 = 380 € ✓. Au-delà de 6 jours, A devient plus intéressant, parce que son prix journalier est plus bas.",
+      rappel:"Comparer deux formules, c'est écrire une équation avec l'inconnue des deux côtés."
+    },
+    {
+      type:"qcm",
+      contexte:"Correction d'un exercice — l'élève s'est trompé quelque part.",
+      enonce:"Pour résoudre <span class='mono'>5x − 12 = 3x + 8</span>, il écrit : « 5x − 3x = 8 − 12, donc 2x = −4 et x = −2 ». Où est l'erreur ?",
+      options:[
+        "En passant le −12 à droite, il devient +12 : on obtient 2x = 20, donc x = 10.",
+        "Il n'y a pas d'erreur, le résultat est correct.",
+        "Il fallait diviser par 5 et non par 2.",
+        "Il fallait écrire 5x + 3x du côté gauche."
+      ],
+      correct:0,
+      indice:"Le −12 change de côté du signe égal. Une soustraction qui traverse le signe égal devient quoi ?",
+      explication:"Le regroupement des x est juste : 5x − 3x = 2x. Mais le −12 qui passe à droite devient <strong>+12</strong>, et non −12 : 8 + 12 = 20, donc 2x = 20 et <span class='rep'>x = 10</span>. Vérification, celle qui aurait sauvé l'élève : avec x = 10, la gauche vaut 50 − 12 = 38 et la droite 30 + 8 = 38 ✓. Avec x = −2, on aurait eu −22 d'un côté et 2 de l'autre : l'erreur se voyait en dix secondes.",
+      rappel:"Un terme qui traverse le signe égal change de signe. Toujours."
+    },
   ]
 },
 {
@@ -751,16 +816,16 @@ n = 850 ÷ 85 = 10</span>
   theorie:`
     <h3>Avant de commencer</h3>
     <p>Une inéquation se résout <strong>exactement comme une équation</strong>, avec une seule différence — mais elle est décisive.</p>
-    <p>Les quatre signes : <span class="mono">&lt;</span> plus petit, <span class="mono">&gt;</span> plus grand, <span class="mono">≤</span> plus petit ou égal, <span class="mono">≥</span> plus grand ou égal. Dans la vraie vie du plateau : « au moins 150 places » s'écrit x ≥ 150, « 250 kg maximum » s'écrit m ≤ 250.</p>
+    <p>Les quatre signes : <span class="mono">&lt;</span> plus petit, <span class="mono">&gt;</span> plus grand, <span class="mono">≤</span> plus petit ou égal, <span class="mono">≥</span> plus grand ou égal. Dans la vraie vie du plateau : « au moins 120 places » s'écrit x ≥ 120, « 300 kg maximum » s'écrit m ≤ 300.</p>
     <p><strong>La règle qui fait toute la différence :</strong></p>
     <span class="formule">multiplier ou diviser par un nombre NÉGATIF
 → le sens du signe se retourne</span>
     <p>Pourquoi ? Regarde : 2 &lt; 5. Multiplie les deux par −1 : on obtient −2 et −5. Or −2 est plus <strong>grand</strong> que −5. Le classement s'est inversé.</p>
     <p>La solution s'écrit ensuite sous forme d'<strong>intervalle</strong> :</p>
-    <span class="formule">x ≥ 170 → [170 ; +∞[
-150 ≤ x ≤ 400 → [150 ; 400]</span>
+    <span class="formule">x ≥ 120 → [120 ; +∞[
+180 ≤ x ≤ 400 → [180 ; 400]</span>
     <p>Crochet fermé quand la valeur est acceptée, ouvert quand elle est exclue. Du côté de l'infini, le crochet est toujours ouvert : on n'atteint jamais l'infini.</p>
-    <p>Et le meilleur contrôle reste le bon sens du métier. Si tu trouves qu'il faut « au moins 10 jours » alors que la question porte sur un stock qui s'épuise, c'est qu'un signe s'est retourné quelque part.</p>`,
+    <p>Et le meilleur contrôle reste le bon sens du métier. Si tu aboutis à un nombre de jours <em>minimum</em> alors que la question porte sur un stock qui s'épuise, c'est qu'un signe s'est retourné quelque part.</p>`,
   questions:[
     {
       type:"num",
@@ -795,13 +860,33 @@ n = 850 ÷ 85 = 10</span>
     {
       type:"num",
       contexte:"Accroche lumière, juste avant le montage.",
-      enonce:"La perche supporte <strong>250 kg</strong> au maximum. Le pont de structure pèse déjà <strong>46 kg</strong> et chaque découpe pèse <strong>8,5 kg</strong>. Combien de découpes peut-on accrocher au maximum ?",
+      enonce:"La perche supporte <strong>250 kg</strong> au maximum. Le pont de structure pèse déjà <strong>50 kg</strong> et chaque découpe pèse <strong>8 kg</strong>. Combien de découpes peut-on accrocher au maximum ?",
       unite:"découpes",
-      reponse:24,
+      reponse:25,
       indice:"Le pont pèse de toute façon : retire son poids de ce que la perche accepte. Ce qui reste se partage entre les découpes.",
-      explication:"46 + 8,5x ≤ 250 → 8,5x ≤ 204 → x ≤ 24, soit <span class='rep'>24 découpes</span>. Contrôle : 24 × 8,5 = 204 kg, plus les 46 kg du pont, on est à 250 kg pile. Une 25e monterait à 258,5 kg, au-dessus de la limite. Comme pour les projecteurs sur la ligne 16 A au module 1 : devant une limite de sécurité, on arrondit vers le bas.",
+      explication:"50 + 8x ≤ 250 → 8x ≤ 200 → x ≤ 25, soit <span class='rep'>25 découpes</span>. Contrôle : 25 × 8 = 200 kg, plus les 50 kg du pont, on est à 250 kg pile. Une 26e monterait à 258 kg, au-dessus de la limite. Comme pour les projecteurs sur la ligne 16 A au module 1 : devant une limite de sécurité, on arrondit vers le bas.",
       rappel:"Devant une charge maximale, on arrondit toujours vers le bas — jamais vers le haut."
-    }
+    },
+    {
+      type:"num",
+      contexte:"Commande de gélatines pour la création lumière.",
+      enonce:"Le budget accessoires est de <strong>900 €</strong>, dont <strong>180 €</strong> déjà engagés en gaffer. Chaque feuille de gélatine coûte <strong>12 €</strong>. Combien peut-on en commander au maximum ?",
+      unite:"gélatines",
+      reponse:60,
+      indice:"Le gaffer est déjà dépensé : retire-le du budget avant tout. Ce qui reste se partage entre les gélatines.",
+      explication:"180 + 12x ≤ 900 → 12x ≤ 720 → x ≤ 60, soit <span class='rep'>60 gélatines</span>. Contrôle : 60 × 12 = 720 €, plus les 180 € de gaffer, on tombe à 900 € pile. Une 61e ferait dépasser le budget de 12 €.",
+      rappel:"On isole toujours la partie variable avant de diviser."
+    },
+    {
+      type:"num",
+      contexte:"La salle n'est plus chauffée après la dernière représentation.",
+      enonce:"La température part de <strong>21 °C</strong> et perd <strong>3 °C par heure</strong>. Elle s'écrit donc <span class='mono'>T = 21 − 3h</span>. Pendant combien d'<strong>heures</strong> reste-t-elle au-dessus de 0 °C, c'est-à-dire tant que <span class='mono'>21 − 3h ≥ 0</span> ?",
+      unite:"heures",
+      reponse:7,
+      indice:"Isole le terme en h : tu vas obtenir −3h ≥ −21. Que se passe-t-il quand on divise les deux côtés par −3 ?",
+      explication:"21 − 3h ≥ 0 donne −3h ≥ −21. En divisant par −3, un nombre <strong>négatif</strong>, le sens du signe se retourne : h ≤ <span class='rep'>7 heures</span>. Vérification : au bout de 7 h, T = 21 − 21 = 0 °C ✓ ; au bout de 8 h, T = −3 °C, on est passé sous zéro. Le bon sens confirme : une température qui descend ne peut pas rester positive « au minimum » 7 heures, mais bien « au maximum ».",
+      rappel:"Diviser par un négatif retourne le signe — et le contexte permet toujours de vérifier le sens obtenu."
+    },
   ]
 },
 {
@@ -873,7 +958,32 @@ n = 850 ÷ 85 = 10</span>
       indice:"La solution d'un système, c'est le point commun aux deux droites. Deux droites parallèles distinctes ont-elles un point commun ?",
       explication:"Résoudre un système, c'est chercher le point que les deux droites ont en commun. Deux parallèles distinctes ne se rencontrent jamais : <span class='rep'>le système n'a aucune solution</span>. Les deux autres cas complètent le tableau : deux droites sécantes donnent une solution unique — le cas courant, celui du dessin du rappel — et deux droites confondues en donnent une infinité, puisque tous leurs points conviennent.",
       rappel:"Sécantes → une solution. Parallèles distinctes → aucune. Confondues → une infinité."
-    }
+    },
+    {
+      type:"num",
+      contexte:"Deux devis du même loueur, pour deux configurations.",
+      enonce:"<strong>2 consoles et 3 multipaires</strong> coûtent <strong>132 €</strong> par jour. <strong>2 consoles et 1 multipaire</strong> coûtent <strong>92 €</strong>. Combien coûte une <strong>console</strong> par jour ?",
+      unite:"€",
+      reponse:36,
+      indice:"Les deux lignes contiennent exactement « 2 consoles ». Que donne la soustraction d'une ligne à l'autre ?",
+      explication:"En soustrayant la seconde ligne de la première, les consoles disparaissent : 2 multipaires coûtent 132 − 92 = 40 €, donc un multipaire vaut 20 €. En remplaçant dans la seconde ligne : 2c + 20 = 92, donc 2c = 72 et c = <span class='rep'>36 €</span>. Vérification : 2 × 36 + 3 × 20 = 72 + 60 = 132 ✓ et 2 × 36 + 20 = 92 ✓.",
+      rappel:"Quand une inconnue a le même coefficient dans les deux lignes, la soustraction l'élimine."
+    },
+    {
+      type:"qcm",
+      contexte:"Lecture graphique, deuxième cas particulier.",
+      enonce:"Cette fois, les deux droites du système sont <strong>confondues</strong> : elles se superposent exactement. Que peut-on en conclure ?",
+      options:[
+        "Le système a une infinité de solutions : tous les points de la droite conviennent.",
+        "Le système n'a aucune solution.",
+        "Le système a exactement une solution, puisqu'il n'y a qu'une droite visible.",
+        "Le système est mal posé : deux droites ne peuvent pas être confondues."
+      ],
+      correct:0,
+      indice:"La solution d'un système, c'est l'ensemble des points communs aux deux droites. Combien de points deux droites superposées ont-elles en commun ?",
+      explication:"Deux droites confondues ont <strong>tous</strong> leurs points en commun : le système admet donc <span class='rep'>une infinité de solutions</span>. Concrètement, cela veut dire que la deuxième équation ne dit rien de neuf — c'est la première, multipliée par un nombre. On croit avoir deux informations, on n'en a qu'une, et l'inconnue reste indéterminée.",
+      rappel:"Deux équations qui disent la même chose ne suffisent jamais à trouver deux inconnues."
+    },
   ]
 }
 ];
